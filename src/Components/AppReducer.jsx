@@ -5,10 +5,6 @@ export default function appReducer(state, action) {
       return {
         videos: [...state.videos, action.payload],
       };
-    case "Delete_Question":
-      return {
-        videos: [],
-      };
     case "Update_Question":
       const updateQuestion = action.payload;
       const updatedQuestion = state.videos.map((video) => {

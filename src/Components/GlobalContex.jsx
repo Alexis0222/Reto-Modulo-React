@@ -35,19 +35,12 @@ export const ContextProvider = ({ children }) => {
       type: "Add_Question",
       payload: { ...videos },
     });
-    console.log("añadiendo tarea", videos);
-  };
-  const deleteQuestion = (question) => {
-    dispatch({
-      type: "Delete_Question",
-    });
-    console.log("añadiendo tarea", question);
   };
   const updateQuestion = (question) =>
     dispatch({ type: "Update_Question", payload: question });
 
   return (
-    <GlobalContext.Provider value={{ ...state, addQuestion,updateQuestion }}>
+    <GlobalContext.Provider value={{ ...state, addQuestion, updateQuestion }}>
       {children}
     </GlobalContext.Provider>
   );
