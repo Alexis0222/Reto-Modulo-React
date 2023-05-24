@@ -28,6 +28,8 @@ export const QuestionForm = () => {
   const [timerFormat, setTimerFormat] = useState("0:00");
   const [showCircle, setShowCircle] = useState(true);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [showNextVideo, setShowNextVideo] = useState(false);
+  const [nextVideo, setNextVideo] = useState();
   const navigate = useNavigate();
   const params = useParams();
   const videoRef = useRef(null);
@@ -39,8 +41,18 @@ export const QuestionForm = () => {
   const _handleSubmit = (e) => {
     e.preventDefault();
     if (video.id) {
-      updateQuestion(video);
-      navigate("/");
+      console.log(showNextVideo);
+      if (showNextVideo) {
+        console.log("llegue aca con siguiente video: ", nextVideo);
+        updateQuestion(video);
+        setTimerFormat("0:00");
+        setShowCompleted(false);
+        navigate(`/Edit/${nextVideo}`);
+      } else {
+        console.log("llegue aca sin un siguiente video video: ");
+        updateQuestion(video);
+        navigate("/");
+      }
     } else {
       addQuestion(video);
       navigate("/");
@@ -90,8 +102,23 @@ export const QuestionForm = () => {
   };
 
   useEffect(() => {
-    const questionFound = videos.find((task) => task.id === params.id);
+    const questionFound = videos.find((Video) => Video.id === params.id);
+    const stilQuestionNull = videos.some(
+      (video) => video.videoRespuesta === null
+    );
 
+    if (stilQuestionNull) {
+      const nextVideoFound = videos.find(
+        (video) => video.id !== params.id && video.videoRespuesta == null
+      );
+      if (nextVideoFound) {
+        setNextVideo(nextVideoFound.id);
+        setShowNextVideo(true);
+      } else {
+        setNextVideo(null);
+        setShowNextVideo(false);
+      }
+    }
     if (questionFound) {
       setVideo(questionFound);
     }
@@ -175,13 +202,13 @@ export const QuestionForm = () => {
                     )}
                   </Typography>
                 </Typography>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="" component="div">
+                  <Typography variant="h4" color="text.secondary">
+                    {video.Pregunta}
+                  </Typography>
                   <video ref={videoRef} autoPlay muted></video>
                 </Typography>
               </Box>
-              <Typography variant="body2" color="text.secondary">
-                {video.Pregunta}
-              </Typography>
             </CardContent>
             <CardActions disableSpacing>
               <Box flexGrow={1} display={"flex"} justifyContent={"flex-start"}>
@@ -204,17 +231,31 @@ export const QuestionForm = () => {
                   </Button>
                 )}
               </Box>
-              <Box display={"flex"} justifyContent={"space-between"}>
-                <Button
-                  disabled={!showCompleted}
-                  variant="contained"
-                  color="success"
-                  size="medium"
-                  onClick={_handleSubmit}
-                >
-                  Finalizar
-                </Button>
-              </Box>
+              {showNextVideo ? (
+                <Box display={"flex"} justifyContent={"space-between"}>
+                  <Button
+                    disabled={!showCompleted}
+                    variant="contained"
+                    color="success"
+                    size="medium"
+                    onClick={_handleSubmit}
+                  >
+                    Siguiente
+                  </Button>
+                </Box>
+              ) : (
+                <Box display={"flex"} justifyContent={"space-between"}>
+                  <Button
+                    disabled={!showCompleted}
+                    variant="contained"
+                    color="success"
+                    size="medium"
+                    onClick={_handleSubmit}
+                  >
+                    Finalizar
+                  </Button>
+                </Box>
+              )}
             </CardActions>
           </Card>
           <Typography variant="body2" color="text.secondary"></Typography>
