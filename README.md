@@ -17,4 +17,5 @@ Una vez ya tenga el proyecto clonado pasar a utilizar los siguientes comandos
 ![image](https://github.com/Alexis0222/Reto-Modulo-React/assets/89057784/8889a02d-eaad-4c09-a5a2-640685f1539b)
 
 ### Vista grabar respuesta
-![image](https://github.com/Alexis0222/Reto-Modulo-React/assets/89057784/9493ac2e-8ebd-49e9-9cd8-d303f9c242f7)
+![image](https://github.com/Alexis0222/Reto-Modulo-React/assets/89057784/047bdc82-f3a1-46eb-a93a-b1d675ba79d4)
+
